@@ -1,5 +1,6 @@
 class Farkle
-  def start_turn(player, n, scores)
+
+  def start_turn(player, n, scores, asides)
     roll = roll_dice(n)
     puts "player #{player.to_s}'s first roll is: "
     puts roll
@@ -12,7 +13,7 @@ class Farkle
       STDOUT.flush
       check = gets.chomp
       if check == 'y' || check == 'Y'
-        farkle.set_aside(rolls, asides)
+        set_aside(roll, asides)
       else
         scores[player-1] += score
         switch_player(player)
@@ -22,6 +23,7 @@ class Farkle
       switch_player(player)
     end
   end
+
   def switch_player(player)
     if player == 1
       player = 2
@@ -29,9 +31,11 @@ class Farkle
       player = 1
     end
   end
+
   def roll_dice(n)
     (1..n).map { rand(6) + 1 }
   end
+
   def set_aside(roll, asides)
     puts "Enter the number of the point die you'd like to set aside (1 or 5):"
     num = gets.to_i
@@ -43,6 +47,7 @@ class Farkle
       set_aside(roll, asides)
     end
   end
+
   def score(roll)
     temp = []
     score = 0
