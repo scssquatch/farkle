@@ -1,15 +1,42 @@
 class Farkle
-  def start_turn(player)
-    roll = roll_dice(6)
-    puts "player " + player + "'s first roll is: "
+  def start_turn(player, n)
+    roll = roll_dice(n)
+    puts "player #{player.to_s}'s first roll is: "
     puts roll
     score = score(roll)
-    puts player + "'s current score is: "
+    puts "#{player.to_s}'s current score is: "
     puts score
-    roll
+    if roll.count(1) > 0 or roll.count(5) > 0
+      puts "Would you like to set aside or cash out your points?"
+      puts "Enter y to set dice aside or n to end your turn"
+      STDOUT.flush
+      check = gets.chomp
+      if check == 'y' || check == 'Y'
+        farkle.set_aside(rolls, asides)
+      else
+        switch_player(player)
+      end
+    else
+      puts "Farkle! Your turn is over, you've lost all points of this turn"
+      switch_player(player)
+    end
+  end
+  def switch_player(player)
+    if player == 1
+      player = 2
+    else
+      player = 1
+    end
   end
   def roll_dice(n)
     (1..n).map { rand(6) + 1 }
+  end
+  def set_aside(rolls, asides)
+    puts "Enter the number of the die you'd like to set aside:"
+    num = gets.to_i
+    if (num == 1 || num == 5)
+
+    end
   end
   def score(roll)
     temp = []
