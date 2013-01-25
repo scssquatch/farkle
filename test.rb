@@ -3,16 +3,21 @@ puts "Would you like to start a game? (y/n)"
 STDOUT.flush
 play = gets.chomp
 while (play == 'y' || play == 'Y')
-  player = "player 1"
-  puts "It is now " + player +"'s turn"
+  player = 1
+  puts "It is now player " + player + "'s turn"
   farkle = Farkle.new
-  roll = (1..6).map { rand(6) + 1 }
-  puts player + "'s roll is: "
-  puts roll
-  score = farkle.score(roll)
-  puts player + "'s current score is: "
-  puts score
-
+  roll = farkle.start_turn(player)
+  if roll.count(1) > 0 or rolls.count(5) > 0
+    puts "Would you like to set aside or cash out your points?"
+    puts "Enter y to set dice aside or n to end your turn"
+  else
+    puts "Farkle! Your turn is over, you've lost all points of this turn"
+    if player == 1
+      player = 2
+    else
+      player = 1
+    end
+  end
   puts "Would you like to play a new game? (y/n)"
   play = gets.chomp
 end

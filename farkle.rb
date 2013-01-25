@@ -1,4 +1,16 @@
 class Farkle
+  def start_turn(player)
+    roll = roll_dice(6)
+    puts "player " + player + "'s first roll is: "
+    puts roll
+    score = score(roll)
+    puts player + "'s current score is: "
+    puts score
+    roll
+  end
+  def roll_dice(n)
+    (1..n).map { rand(6) + 1 }
+  end
   def score(roll)
     temp = []
     score = 0
