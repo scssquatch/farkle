@@ -9,7 +9,8 @@ while (play == 'y' || play == 'Y')
   puts "It is now player #{player.to_s}'s turn"
   farkle = Farkle.new
   while scores[0] < 10000 && scores[1] < 10000
-    roll = farkle.start_turn(player, 6)
+    roll = farkle.start_turn(player, 6, scores)
+    
     puts "Would you like to play a new game? (y/n)"
     play = gets.chomp
   end

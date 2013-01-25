@@ -1,5 +1,5 @@
 class Farkle
-  def start_turn(player, n)
+  def start_turn(player, n, scores)
     roll = roll_dice(n)
     puts "player #{player.to_s}'s first roll is: "
     puts roll
@@ -14,6 +14,7 @@ class Farkle
       if check == 'y' || check == 'Y'
         farkle.set_aside(rolls, asides)
       else
+        scores[player-1] += score
         switch_player(player)
       end
     else
@@ -31,11 +32,15 @@ class Farkle
   def roll_dice(n)
     (1..n).map { rand(6) + 1 }
   end
-  def set_aside(rolls, asides)
-    puts "Enter the number of the die you'd like to set aside:"
+  def set_aside(roll, asides)
+    puts "Enter the number of the point die you'd like to set aside (1 or 5):"
     num = gets.to_i
     if (num == 1 || num == 5)
-
+      asides << num
+      roll.delete_at(roll.index(num))
+    elsif
+      puts "Please enter a number that you have."
+      set_aside(roll, asides)
     end
   end
   def score(roll)
