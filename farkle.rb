@@ -7,6 +7,7 @@ class Farkle
     score = score(roll)
     puts "#{player.to_s}'s current score is: "
     puts score
+
     if roll.count(1) > 0 or roll.count(5) > 0
       puts "Would you like to set aside or cash out your points?"
       puts "Enter y to set dice aside or n to end your turn"
