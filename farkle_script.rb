@@ -1,5 +1,6 @@
 require_relative 'farkle.rb'
-
+require_relative 'dice.rb'
+require_relative 'player.rb'
 # Ask if user wants to play
 puts "Would you like to start a game? (y/n)"
 
@@ -9,8 +10,13 @@ play = gets.chomp
 
 # play until user wants to stop
 while (play == 'y' || play == 'Y')
-  # start with player 1
-  player = 1
+  puts "Enter the number of players: "
+  num_players = gets.to_i
+  i = 0
+  while (i < num_players)
+    puts "Enter the name of player #{i+1}: "
+    Player.new(gets.chomp)
+  end
 
   # scores set to 0 to start
   scores =[0,0]
@@ -20,10 +26,12 @@ while (play == 'y' || play == 'Y')
 
   # array to set aside dice each turn
   asides = []
-  puts "It is now player #{player.to_s}'s turn"
+  puts "It is now player #{player}'s turn"
 
   # new farkle object to call Farkle class methods
   farkle = Farkle.new
+  roll = Dice.new
+  players = Player.new
   
   # loop until a user has won (gets over 10000 points)
   while (scores[0] < 10000 && scores[1] < 10000)
