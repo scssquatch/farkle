@@ -11,9 +11,8 @@ class Farkle
   #         asides - array of dice set aside
   #
   # Output: score - the total score for the full turn
-  #
+
   def start_turn(player, n, scores, asides)
-    
     # roll the dice to start the turn
     roll = roll_dice(n)
 
@@ -94,7 +93,7 @@ class Farkle
     # prompt user for number to set aside
     puts "Enter the number of the point die you'd like to set aside (1 or 5):"
     num = gets.to_i
-    if (num == 1 || num == 5)
+    if ((num == 1 || num == 5) && roll.count(num) > 0)
       # add the number to asides, remove from the roll array
       asides << num
       roll.delete_at(roll.index(num))
