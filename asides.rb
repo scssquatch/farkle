@@ -11,6 +11,7 @@ class Asides
   def clear
     @asides = []
   end
+
   # This method takes in the roll array and the asides 
   # and sets aside point dice that the user specifies
   #
