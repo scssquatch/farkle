@@ -1,4 +1,8 @@
 class Score
+
+  def initialize
+    @score = 0
+  end
   # This method takes in the roll (6 die array)
   # and returns the score of the dice
   #
@@ -9,7 +13,6 @@ class Score
   def score(roll)
     # declare/initialize a temp array and score variable
     temp = []
-    score = 0
     # iterate through the roll array
     roll.each do |die|
       # get number of occurnces of the die
@@ -19,25 +22,25 @@ class Score
         # This section is self-explanatory
         if die_count > 5
           if die == 1
-            score += 2000
+            @score += 2000
           elsif die == 5
-            score += 1000
+            @score += 1000
           else
-            score += die * 200
+            @score += die * 200
           end
         elsif die_count > 2
           if die == 1
-            score += 1000 + (die_count-3)*100
+            @score += 1000 + (die_count-3)*100
           elsif die == 5
-            score += 500 + (die_count-3)*50
+            @score += 500 + (die_count-3)*50
           else 
-            score += die * 100
+            @score += die * 100
           end
         else
           if die == 1
-            score += die_count * 100
+            @score += die_count * 100
           elsif die == 5
-            score += die_count * 50
+            @score += die_count * 50
           end
         end
       # add the number to temp so it isn't counted again
@@ -45,6 +48,10 @@ class Score
       end
     end
     # return the score of these dice
-    score
+    @score
+  end
+
+  def show_score
+    puts "Current score for this roll is: #{@score}"
   end
 end
