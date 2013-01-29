@@ -1,7 +1,7 @@
 require_relative 'score.rb'
 class Player
 
-  attr_accessor :name
+  attr_reader :name
   attr_accessor :score
 
   # Initializes an empty players array to store the players.
