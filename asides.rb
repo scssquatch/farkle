@@ -1,5 +1,6 @@
 class Asides
 
+  attr_reader :asides
   # Creates an empty array to store the dice
   def initialize
     @asides = []

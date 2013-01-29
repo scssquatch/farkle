@@ -11,7 +11,4 @@ class Player
     @score = 0
   end
 
-  def show_current
-    puts "It is now #{@name}'s turn"
-  end
 end
