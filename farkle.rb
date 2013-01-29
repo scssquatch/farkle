@@ -1,57 +1,84 @@
+require_relative 'farkle.rb'
+require_relative 'dice.rb'
+require_relative 'player.rb'
+require_relative 'asides.rb'
+require_relative 'yesorno.rb'
+require_relative 'winner.rb'
+require_relative 'score.rb'
+
 class Farkle
+  winner = Winner.new
+  ans = YesOrNo.new
+  # Ask if user wants to play
+  puts "Would you like to start a game? (y/n)"
 
-  # This method covers a turn from start to finish.
-  # It  takes in 4 arguments: whose turn, how many dice to roll,
-  # the score array, and the asides array and then completes a turn
-  # and returns the score for the entire turn at the end
-  #
-  # Inputs: player - whose turn it is (1 or 2)
-  #         n - number of dice to roll for the turn
-  #         scores - score array containing both players scores
-  #         asides - array of dice set aside
-  #
-  # Output: score - the total score for the full turn
+  # play until user wants to stop
+  while (ans.yes?)
 
-  def start_turn(player, n, scores, asides)
-    # roll the dice to start the turn
-    roll = roll_dice(n)
+    # new farkle object to call Farkle class methods
+    players = []
 
-    # output the roll so the player can see current dice
-    puts "player #{player.to_s}'s current roll is: "
-    puts roll
-
-    # if the player has set aside dice, display them
-    if asides.length > 0
-      puts "player #{player.to_s}'s asides are: "
-      puts asides
+    puts "Enter the number of players: "
+    num_players = gets.to_i
+    i = 0
+    while (i < num_players)
+      puts "Enter the name of player #{(i+1).to_s}: "
+      players << Player.new(gets.chomp)
+      i += 1
     end
 
-    # score the roll plus the dice set aside, then display to the user
-    score = score(roll+asides)
-    puts "player #{player.to_s}'s current score is: "
-    puts score
-    # output what the score will be if user ends turn
-    puts "player #{player.to_s}'s total score will be: "
-    puts scores[player-1] + score
+    # placeholder to output score of each turn
+    current_score = 0
 
-    # if user has 1s or 5s, ask if they'd like to set them aside
-    if roll.count(1) > 0 or roll.count(5) > 0
-      puts "Would you like to set aside or cash out your points?"
-      puts "Enter y to set dice aside or n to end your turn"
-      STDOUT.flush
-      check = gets.chomp
-      if check == 'y' || check == 'Y'
+    # loop until a user has won (gets over 10000 points)
+    while (winner.max_score(players) < 5000)
+      players.each do |player|
+        puts "It is now #{player.name}'s turn"
 
-        # set aside the dice if user says yes
-        set_aside(roll, asides)
-        score = start_turn(player, (6-asides.length), scores, asides)
+        roll = Dice.new
+        asides = Asides.new
+        score = Score.new
+
+        roll.show_dice
+        score.score_dice(roll.dice)
+        score.show_score
+        puts "Your total score will be: #{player.score + score.score}"
+
+        while roll.has_points?
+          # asides.show_asides if asides.has_asides?
+          puts "Would you like to set aside, or cash out your points?"
+          puts "Enter y to set dice aside, or n to cash out"
+          if ans.yes?
+            asides.set_aside(roll.dice)
+          else
+            break
+          end
+          roll.roll(6-asides.asides.length)
+          roll.show_dice
+          asides.show_asides
+          score.score_dice(roll.dice + asides.asides)
+          score.show_score
+          puts "Your total score will be: #{player.score + score.score}"
+        end
+        if roll.has_points?
+          puts "You scored #{score.score.to_s} points this round!"
+          puts "Press enter to continue: "
+          gets.chomp
+          puts "\n\n\n"
+        else
+          puts "Farkle! You've lost all points for this round."
+          puts "Press enter to continue: "
+          gets.chomp
+          puts "\n\n\n"
+          score.score = 0
+        end
+        player.score += score.score
+        asides.clear
       end
-    # if no 1s or 5s, the player has farkled
-    else
-      puts "Farkle! Your turn is over, you've lost all points of this turn"
-      score = 0
     end
-    # return the score
-    score
+    puts "Congratulations, #{winner.winner(players)} has won!"
+    puts "Would you like to play a new game? (y/n)"
   end
+  # ask if user would like another game
+  puts "Thanks for playing! I hope you enjoyed"
 end
