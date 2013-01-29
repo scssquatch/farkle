@@ -1,16 +1,16 @@
 require_relative 'farkle.rb'
 require_relative 'dice.rb'
 require_relative 'player.rb'
+require_relative 'asides.rb'
+require_relative 'yesorno.rb'
 
 class Play
+  ans = YesOrNo.new
   # Ask if user wants to play
   puts "Would you like to start a game? (y/n)"
 
-  STDOUT.flush
-  play = gets.chomp
-
   # play until user wants to stop
-  while (play == 'y' || play == 'Y')
+  while (ans.yes?)
 
     # new farkle object to call Farkle class methods
     players = []

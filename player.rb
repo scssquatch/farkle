@@ -1,21 +1,17 @@
 require_relative 'score.rb'
 class Player
 
+  attr_accessor :name
+  attr_accessor :score
+
   # Initializes an empty players array to store the players.
   # Makes a new score slot that matches with the name
   def initialize(name)
-    @player = [name, 0]
-  end
-
-  def name
-    @player[0]
-  end
-
-  def score
-    @player[1]
+    @name = name
+    @score = 0
   end
 
   def show_current
-    puts "It is now #{@player[0]}'s turn"
+    puts "It is now #{@name}'s turn"
   end
 end
