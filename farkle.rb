@@ -9,6 +9,7 @@ require_relative 'score.rb'
 class Farkle
   winner = Winner.new
   ans = YesOrNo.new
+
   # Ask if user wants to play
   puts "Would you like to start a game? (y/n)"
 
@@ -79,6 +80,5 @@ class Farkle
     puts "Congratulations, #{winner.winner(players)} has won!"
     puts "Would you like to play a new game?"
   end
-  # ask if user would like another game
   puts "Thanks for playing! I hope you enjoyed"
 end
