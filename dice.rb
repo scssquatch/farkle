@@ -1,8 +1,10 @@
 class Dice
 
-  # Creates an empty array to store the dice
+  attr_reader :dice
+
+  # Initial roll is 6 dice because it's at the start of a turn
   def initialize
-    @roll = []
+    @dice = (1..6).map { rand(6) + 1 }
   end
 
   # This method randomly rolls n number of dice.
@@ -11,18 +13,26 @@ class Dice
   #
   # Output - array of n numbers ranging from 1 to 6
   def roll(n)
-    @roll = (1..n).map { rand(6) + 1 }
+    @dice = (1..n).map { rand(6) + 1 }
   end
 
-  def show_roll
+  def show_dice
     puts "Your roll is: "
-    puts @roll.to_s
+    puts @dice.to_s
   end
 
 
   # Checks if roll has point dice
   def has_points?
-    if @roll.count(1) > 0 || @roll.count(5) > 0
+    if @dice.count(1) > 0 || @dice.count(5) > 0
+      return true
+    else
+      return false
+    end
+  end
+
+  def hot_dice?
+    if @dice.count(1) + @dice.count(5) == 6
       return true
     else
       return false

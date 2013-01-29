@@ -1,4 +1,3 @@
-require_relative 'score.rb'
 class Player
 
   attr_reader :name
@@ -10,5 +9,4 @@ class Player
     @name = name
     @score = 0
   end
-
 end
