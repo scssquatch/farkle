@@ -77,7 +77,7 @@ class Farkle
       end
     end
     puts "Congratulations, #{winner.winner(players)} has won!"
-    puts "Would you like to play a new game? (y/n)"
+    puts "Would you like to play a new game?"
   end
   # ask if user would like another game
   puts "Thanks for playing! I hope you enjoyed"
