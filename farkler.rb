@@ -18,9 +18,10 @@ class Play
     puts "Enter the number of players: "
     num_players = gets.to_i
     i = 0
-    while (i < num_players)
+    while (i < num_players) do
       puts "Enter the name of player #{(i+1).to_s}: "
       players << Player.new(gets.chomp)
+      i += 1
     end
 
     # placeholder to output score of each turn
@@ -65,15 +66,14 @@ class Play
       
       # reset the asides each turn
       asides = []
-    end
-
-    # switch players because the players switch after a player has won
-    player = farkle.switch_player(player)
-    puts "Player #{player.to_s} wins with a score of #{scores[player-1]}!"
-
-    # ask if user would like another game
-    puts "Would you like to play a new game? (y/n)"
-    play = gets.chomp
   end
-  puts "Thanks for playing! I hope you enjoyed"
+
+  # switch players because the players switch after a player has won
+  player = farkle.switch_player(player)
+  puts "Player #{player.to_s} wins with a score of #{scores[player-1]}!"
+
+  # ask if user would like another game
+  puts "Would you like to play a new game? (y/n)"
+  play = gets.chomp
 end
+puts "Thanks for playing! I hope you enjoyed"
