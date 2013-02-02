@@ -1,5 +1,7 @@
 require_relative 'player.rb'
 class Winner
+  # finds the highest score so farkle.rb can
+  # check if it is above 10,000
   def max_score(players)
     max = 0
     players.each do |player|
@@ -10,6 +12,7 @@ class Winner
     max
   end
 
+  # finds which player has the highest score and returns it
   def winner(players)
     temp_scores = []
     players.each do |player|
