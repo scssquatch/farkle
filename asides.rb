@@ -25,6 +25,12 @@ class Asides
     end
   end
 
+  def hot_dice(roll)
+    while roll.length > 0
+      asides << roll.shift
+    end
+  end
+
   # This method takes in the roll array and the asides 
   # and sets aside point dice that the user specifies
   #

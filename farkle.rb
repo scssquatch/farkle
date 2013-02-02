@@ -5,6 +5,7 @@ require_relative 'asides.rb'
 require_relative 'yesorno.rb'
 require_relative 'winner.rb'
 require_relative 'score.rb'
+require_relative 'hotdice.rb'
 
 class Farkle
   winner = Winner.new
@@ -40,12 +41,23 @@ class Farkle
         asides = Asides.new
         score = Score.new
 
-        roll.show_dice
-        score.score_dice(roll.dice)
-        score.show_score
-        puts "Your total score will be: #{player.score + score.score}"
-
         while roll.has_points?
+          if roll.hot_dice?
+            roll.show_dice
+            asides.show_asides
+            hotdice = HotDice.new
+            hotdice.hot_dice(roll, asides)
+            if !asides.has_asides?
+              score.score_dice(roll.dice)
+              break
+            end
+          end
+          roll.show_dice
+          asides.show_asides
+          score.score_dice(roll.dice + asides.asides)
+          score.show_score
+          puts "Your total score will be: #{player.score + score.score}"
+
           # asides.show_asides if asides.has_asides?
           puts "Would you like to set aside, or cash out your points?"
           puts "Enter y to set dice aside, or n to cash out"
@@ -55,11 +67,6 @@ class Farkle
             break
           end
           roll.roll(6-asides.asides.length)
-          roll.show_dice
-          asides.show_asides
-          score.score_dice(roll.dice + asides.asides)
-          score.show_score
-          puts "Your total score will be: #{player.score + score.score}"
         end
         if roll.has_points?
           puts "You scored #{score.score.to_s} points this round!"
@@ -67,6 +74,8 @@ class Farkle
           gets.chomp
           puts "\n\n\n"
         else
+          asides.show_asides
+          score.show_score
           puts "Farkle! You've lost all points for this round."
           puts "Press enter to continue: "
           gets.chomp
