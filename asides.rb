@@ -12,11 +12,13 @@ class Asides
     @asides = []
   end
 
+  # displays the set-aside dice to the user
   def show_asides
     puts "Your set aside dice are: "
     puts @asides.to_s
   end
 
+  # determines if user has set-aside dice or not
   def has_asides?
     if @asides.length > 0
       return true
@@ -25,6 +27,7 @@ class Asides
     end
   end
 
+  # shoves all dice in the roll into the asides
   def hot_dice(roll)
     while roll.length > 0
       asides << roll.shift

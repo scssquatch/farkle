@@ -2,6 +2,7 @@ class Score
 
   attr_accessor :score
 
+  # initializes empty variables for usage
   def initialize
     @score = 0
     @counted = []
@@ -9,10 +10,12 @@ class Score
     @die = 0
   end
 
+  # determines how many of the die are in the roll
   def how_many?
     @roll.count(@die)
   end
 
+  # determines if the dice value has been counted yet.
   def been_counted?
     if @counted.count(@die) > 0
       return true
@@ -22,10 +25,12 @@ class Score
     end
   end
 
+  # checks the value of a dice, for simpler syntax
   def is_a?(num)
     return @die == num
   end
 
+  # score a dice with the value of 1
   def score_one
     if how_many? > 5
       @score += 2000
@@ -36,6 +41,7 @@ class Score
     end
   end
 
+  # score a dice with the value of 5
   def score_five
     if how_many? > 5
       @score += 1000
@@ -46,6 +52,7 @@ class Score
     end
   end
 
+  # score a non-point die
   def score_regular
     if how_many? > 5
       @score += @die*200
@@ -84,6 +91,7 @@ class Score
     @counted = []
   end
 
+  # output the score of the current roll to to the user
   def show_score
     puts "Current score for this roll is: #{@score}"
   end

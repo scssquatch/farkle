@@ -16,6 +16,7 @@ class Dice
     @dice = (1..n).map { rand(6) + 1 }
   end
 
+  # outputs the user's roll
   def show_dice
     puts "Your roll is: "
     puts @dice.to_s
@@ -31,6 +32,7 @@ class Dice
     end
   end
 
+  # determines if user has hot dice.
   def hot_dice?
     if @dice.count(1) + @dice.count(5) == 6
       return true
