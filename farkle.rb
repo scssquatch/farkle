@@ -44,8 +44,8 @@ class Farkle
         asides = Asides.new
         score = Score.new
 
-        # while user has not farkled
-        while roll.has_points?
+        # while user has not farkled and has more than 1 die
+        while roll.has_points? and roll.dice.length > 1
 
           # show dice, asides, score, total score
           roll.show_dice
@@ -65,8 +65,7 @@ class Farkle
           end
 
           # prompt user if they would like to set aside dice
-          puts "Would you like to set aside dice, or cash out your points?"
-          puts "Enter y to set dice aside, or n to cash out"
+          asides.ask_user
           if ans.yes?
             asides.set_aside(roll.dice)
           else
@@ -79,6 +78,11 @@ class Farkle
         # check if when turn ended they had points, to tell them
         # how much they scored
         if roll.has_points?
+          # if they set aside all but one die
+          if roll.dice.length == 1
+            roll.show_dice
+            asides.show_asides
+          end&& roll.dice.length > 1
           puts "You scored #{score.score.to_s} points this round!"
           puts "Press enter to continue: "
           gets.chomp

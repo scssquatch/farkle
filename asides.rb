@@ -34,6 +34,11 @@ class Asides
     end
   end
 
+  def ask_user
+    puts "Would you like to set aside dice, or cash out your points?"
+    puts "Enter y to set dice aside, or n to cash out"
+  end
+
   # This method takes in the roll array and the asides 
   # and sets aside point dice that the user specifies
   #
@@ -55,7 +60,7 @@ class Asides
     @asides << num
     roll.delete_at(roll.index(num))
     # if user still has 1s or 5s, ask if they'd like to set more aside
-    if roll.count(1) > 0 or roll.count(5) > 0
+    if (roll.count(1) > 0 or roll.count(5) > 0) and roll.length > 1
       puts "Would you like to set any more numbers aside?"
       set_aside(roll) if ans.yes?
     end
