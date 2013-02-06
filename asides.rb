@@ -59,7 +59,7 @@ class Asides
     # add the number to asides, remove from the roll array
     @asides << num
     roll.delete_at(roll.index(num))
-    # if user still has 1s or 5s, ask if they'd like to set more aside
+    # if user still has 1s or 5s and more than 1 die, ask if they'd like to set more aside
     if (roll.count(1) > 0 or roll.count(5) > 0) and roll.length > 1
       puts "Would you like to set any more numbers aside?"
       set_aside(roll) if ans.yes?

@@ -42,6 +42,8 @@ class Farkle
         # add class objects
         roll = Dice.new
         asides = Asides.new
+        hot_asides = Asides.new
+        hotdice = HotDice.new
         score = Score.new
 
         # while user has not farkled and has more than 1 die
@@ -50,18 +52,19 @@ class Farkle
           # show dice, asides, score, total score
           roll.show_dice
           asides.show_asides
-          score.score_dice(roll.dice + asides.asides)
+          puts "Your dice set aside from hot dice are: #{hot_asides.asides.to_s}" if hot_asides.has_asides?
+          score.score_dice(roll.dice + asides.asides + hot_asides.asides)
           score.show_score
           puts "Your total score will be: #{player.score + score.score}"
 
           # check for hot dice
           if roll.hot_dice?
             # run hot dice program
-            hotdice = HotDice.new
-            hotdice.hot_dice(roll, asides)
+            hotdice.hot_dice(roll, asides, hot_asides)
+            score.score_dice(roll.dice + hot_asides.asides + asides.asides)
 
             # if user didn't want to re-roll, end the turn
-            break unless asides.has_asides?
+            break unless asides.has_asides? || !roll.has_points? || hot_asides.has_asides?
           end
 
           # prompt user if they would like to set aside dice
