@@ -4,8 +4,7 @@ class Dice
 
   # Initial roll is 6 dice because it's at the start of a turn
   def initialize
-    #@dice = (1..6).map { rand(6) + 1 }
-    @dice = [1,1,1,5,5,5]
+    @dice = (1..6).map { rand(6) + 1 }
   end
 
   # This method randomly rolls n number of dice.

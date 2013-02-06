@@ -20,8 +20,10 @@ class Farkle
     # new farkle object to call Farkle class methods
     players = []
 
-    puts "Enter the number of players: "
-    num_players = gets.to_i
+    begin
+      puts "Enter the number of players (1 or more): "
+      num_players = gets.to_i
+    end while num_players < 1
     i = 0
     # loop until user enters name of all players
     while (i < num_players)
@@ -63,7 +65,7 @@ class Farkle
             hotdice.hot_dice(roll, asides, hot_asides)
             score.score_dice(roll.dice + hot_asides.asides + asides.asides)
 
-            # if user didn't want to re-roll, end the turn
+            # if user wants to cash out, end turn, if not, continue normally
             break unless asides.has_asides? || !roll.has_points? || hot_asides.has_asides?
           end
 
