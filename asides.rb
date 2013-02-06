@@ -49,6 +49,20 @@ class Asides
     # prompt user for number to set aside
     puts "Pick a 1 or 5 from your roll. Your roll is : "
     puts roll.to_s
+    # add the number to asides, remove from the roll array
+    put_aside(roll)
+    # if user still has 1s or 5s and more than 1 die, ask if they'd like to set more aside
+    if (roll.count(1) > 0 or roll.count(5) > 0) and roll.length > 1
+      puts "Would you like to set any more numbers aside?"
+      set_aside(roll) if ans.yes?
+    end
+    puts "\n\n"
+  end
+
+  # This method actually sets the dice aside so the user can call
+  # this from outside the class without having to follow the prompts
+  # (for testing)
+  def put_aside(roll)
     begin
       puts "Enter the number of the point die you'd like to set aside (1 or 5):"
       num = gets.to_i
@@ -56,14 +70,7 @@ class Asides
         puts "You entered a non-point die, or a die you don't have"
       end
     end while (num != 1 && num != 5 || roll.count(num) == 0)
-    # add the number to asides, remove from the roll array
     @asides << num
     roll.delete_at(roll.index(num))
-    # if user still has 1s or 5s and more than 1 die, ask if they'd like to set more aside
-    if (roll.count(1) > 0 or roll.count(5) > 0) and roll.length > 1
-      puts "Would you like to set any more numbers aside?"
-      set_aside(roll) if ans.yes?
-    end
-    puts "\n\n"
   end
 end
