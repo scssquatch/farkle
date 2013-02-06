@@ -65,7 +65,7 @@ class Tutorial
   puts "Press enter to continue:"
   gets.chomp
   puts "\n"
-  puts "Okay since our roll is 1 5 4 2 4 3, there are two point dice i can set aside. Keep in mind that you must set at least one aside to roll again."
+  puts "Okay since our roll is 1 5 4 2 4 3, there are two point dice I can set aside. Keep in mind that you must set at least one aside to roll again."
   puts "I'm going to set aside just the 1."
   puts "Now that i've set it aside, I roll the remaining 5 dice again."
   puts "Press enter to continue:"
@@ -83,8 +83,8 @@ class Tutorial
   gets.chomp
   puts "\n"
   puts "Okay my roll is 4 1 4 3 2 4."
-  puts "This is an interesting situation. I'm at 500 points currently, and the only number i can set aside is a 1."
-  puts "If i set aside the 1, I will lose the set of 4's in hopes i get more point dice."
+  puts "This is an interesting situation. I'm at 500 points currently, and the only number I can set aside is a 1."
+  puts "If I set aside the 1, I will lose the set of 4's in hopes i get more point dice."
   puts "This is up to your discretion, and it's what the game is all about."
   puts "For now I'm just going to cash out the points, and then teach you about hot dice."
   puts "Press enter to learn about hot dice:"
@@ -92,7 +92,7 @@ class Tutorial
   puts "\n"
   puts "Hot dice is a pretty simple concept."
   puts "If you roll a dice with ALL point dice i.e. 1 1 5 5 5 1, you get the option to roll a new set and keep your whole roll aside."
-  puts "Okay so now i roll again and get 1 2 4 6 3 2. My total is now 1600. 1500 from the first roll, and 100 from the new roll."
+  puts "Okay so now I roll again and get 1 2 4 6 3 2. My total is now 1600. 1500 from the first roll, and 100 from the new roll."
   puts "I can set aside more dice, but I think you get the point."
   puts "Press enter to continue:"
   gets.chomp
