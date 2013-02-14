@@ -8,7 +8,7 @@ require_relative 'hotdice.rb'
 
 class Farkle
   attr_reader :players, :player_num, :winner, :ans
-  attr_accessor :roll, :asides, :hot_asides, :hotdice, :score
+  attr_accessor :roll, :asides, :hot_asides, :hotdice, :score, :current_player
 
   def initialize
     @winner = Winner.new
@@ -19,6 +19,7 @@ class Farkle
     @hot_asides = Asides.new
     @hotdice = HotDice.new
     @score = Score.new
+    @current_player
   end
 
   def get_player_num
@@ -42,6 +43,75 @@ class Farkle
     get_player_num
     get_player_names
   end
+  
+  def show
+    roll.show_dice
+    asides.show_asides
+    puts "Your dice set aside from hot dice are: #{hot_asides.asides.to_s}" if hot_asides.has_asides?
+    score.score_dice(roll.dice + asides.asides + hot_asides.asides)
+    score.show_score
+    puts "Your total score will be: #{current_player.score + score.score}"
+  end
+
+  def turn
+    puts "It is now #{current_player.name}'s turn"
+    roll.roll(6)
+    # while user has not farkled and has more than 1 die
+    while roll.has_points? and roll.dice.length > 1
+
+      # show dice, asides, score, total score
+      show
+
+      # check for hot dice
+      if roll.hot_dice?
+        # run hot dice program
+        hotdice.hot_dice(roll, asides, hot_asides)
+        score.score_dice(roll.dice + hot_asides.asides + asides.asides)
+
+        # if user wants to cash out, end turn, if not, continue normally
+        break unless asides.has_asides? || !roll.has_points? || hot_asides.has_asides?
+      end
+
+      # prompt user if they would like to set aside dice
+      asides.ask_user
+      if ans.yes?
+        asides.set_aside(roll.dice)
+      else
+        # end turn
+        break
+      end
+      # roll remaining dice (dice that aren't set aside)
+      roll.roll(6-asides.asides.length)
+    end
+    # check if when turn ended they had points, to tell them
+    # how much they scored
+    if roll.has_points?
+      # if they set aside all but one die
+      if roll.dice.length == 1
+        roll.show_dice
+        asides.show_asides
+      end&& roll.dice.length > 1
+      puts "You scored #{score.score.to_s} points this round!"
+      puts "Press enter to continue: "
+      gets.chomp
+      puts "\n\n\n"
+    # if no points then they farkled
+    else
+      # show dice and asides so user can see that they farkled
+      asides.show_asides
+      roll.show_dice
+      puts "Farkle! You've lost all points for this round."
+      puts "Press enter to continue: "
+      gets.chomp
+      puts "\n\n\n"
+      # set total score to 0
+      score.score = 0
+    end
+    # add score to player's total
+    current_player.score += score.score
+    asides.clear
+    hot_asides.clear
+  end
 
   def play
     # play until user wants to stop
@@ -55,69 +125,8 @@ class Farkle
       while (winner.max_score(players) < 5000)
         # iterate through all the players
         players.each do |player|
-          puts "It is now #{player.name}'s turn"
-
-          # add class objects
-
-          # while user has not farkled and has more than 1 die
-          while roll.has_points? and roll.dice.length > 1
-
-            # show dice, asides, score, total score
-            roll.show_dice
-            asides.show_asides
-            puts "Your dice set aside from hot dice are: #{hot_asides.asides.to_s}" if hot_asides.has_asides?
-            score.score_dice(roll.dice + asides.asides + hot_asides.asides)
-            score.show_score
-            puts "Your total score will be: #{player.score + score.score}"
-
-            # check for hot dice
-            if roll.hot_dice?
-              # run hot dice program
-              hotdice.hot_dice(roll, asides, hot_asides)
-              score.score_dice(roll.dice + hot_asides.asides + asides.asides)
-
-              # if user wants to cash out, end turn, if not, continue normally
-              break unless asides.has_asides? || !roll.has_points? || hot_asides.has_asides?
-            end
-
-            # prompt user if they would like to set aside dice
-            asides.ask_user
-            if ans.yes?
-              asides.set_aside(roll.dice)
-            else
-              # end turn
-              break
-            end
-            # roll remaining dice (dice that aren't set aside)
-            roll.roll(6-asides.asides.length)
-          end
-          # check if when turn ended they had points, to tell them
-          # how much they scored
-          if roll.has_points?
-            # if they set aside all but one die
-            if roll.dice.length == 1
-              roll.show_dice
-              asides.show_asides
-            end&& roll.dice.length > 1
-            puts "You scored #{score.score.to_s} points this round!"
-            puts "Press enter to continue: "
-            gets.chomp
-            puts "\n\n\n"
-          # if no points then they farkled
-          else
-            # show dice and asides so user can see that they farkled
-            asides.show_asides
-            roll.show_dice
-            puts "Farkle! You've lost all points for this round."
-            puts "Press enter to continue: "
-            gets.chomp
-            puts "\n\n\n"
-            # set total score to 0
-            score.score = 0
-          end
-          # add score to player's total
-          player.score += score.score
-          asides.clear
+          @current_player = player
+          turn
         end
       end
       # output congratulations message
