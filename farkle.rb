@@ -53,6 +53,24 @@ class Farkle
     puts "Your total score will be: #{current_player.score + score.score}"
   end
 
+  def scored
+    # if they set aside all but one die
+    if roll.dice.length == 1
+      roll.show_dice
+      asides.show_asides
+    end&& roll.dice.length > 1
+    puts "You scored #{score.score.to_s} points this round!"
+  end
+
+  def farkled
+    # show dice and asides so user can see that they farkled
+    asides.show_asides
+    roll.show_dice
+    puts "Farkle! You've lost all points for this round."
+    # set total score to 0
+    score.score = 0
+  end
+
   def turn
     puts "It is now #{current_player.name}'s turn"
     roll.roll(6)
@@ -86,29 +104,17 @@ class Farkle
     # check if when turn ended they had points, to tell them
     # how much they scored
     if roll.has_points?
-      # if they set aside all but one die
-      if roll.dice.length == 1
-        roll.show_dice
-        asides.show_asides
-      end&& roll.dice.length > 1
-      puts "You scored #{score.score.to_s} points this round!"
-      puts "Press enter to continue: "
-      gets.chomp
-      puts "\n\n\n"
+      scored
     # if no points then they farkled
     else
-      # show dice and asides so user can see that they farkled
-      asides.show_asides
-      roll.show_dice
-      puts "Farkle! You've lost all points for this round."
-      puts "Press enter to continue: "
-      gets.chomp
-      puts "\n\n\n"
-      # set total score to 0
-      score.score = 0
+      farkled
     end
+    puts "Press enter to continue: "
+    gets.chomp
+    puts "\n\n\n"
     # add score to player's total
     current_player.score += score.score
+    # clear asides and hot_asides for next turn
     asides.clear
     hot_asides.clear
   end
@@ -118,11 +124,10 @@ class Farkle
     begin
 
       # placeholder to output score of each turn
-      current_score = 0
       set_up_players
 
       # loop until a user has won (gets over 10000 points)
-      while (winner.max_score(players) < 5000)
+      while (winner.max_score(players) < 10000)
         # iterate through all the players
         players.each do |player|
           @current_player = player
