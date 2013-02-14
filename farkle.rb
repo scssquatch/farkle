@@ -7,15 +7,18 @@ require_relative 'score.rb'
 require_relative 'hotdice.rb'
 
 class Farkle
-  attr_reader :players
-  attr_reader :player_num
-  attr_reader :winner
-  attr_reader :ans
+  attr_reader :players, :player_num, :winner, :ans
+  attr_accessor :roll, :asides, :hot_asides, :hotdice, :score
 
   def initialize
     @winner = Winner.new
     @ans = YesOrNo.new
     @players = []
+    @roll = Dice.new
+    @asides = Asides.new
+    @hot_asides = Asides.new
+    @hotdice = HotDice.new
+    @score = Score.new
   end
 
   def get_player_num
@@ -41,11 +44,8 @@ class Farkle
   end
 
   def play
-    # Ask if user wants to play
-    puts "Would you like to start a game? (y/n)"
-
     # play until user wants to stop
-    while (ans.yes?)
+    begin
 
       # placeholder to output score of each turn
       current_score = 0
@@ -58,11 +58,6 @@ class Farkle
           puts "It is now #{player.name}'s turn"
 
           # add class objects
-          roll = Dice.new
-          asides = Asides.new
-          hot_asides = Asides.new
-          hotdice = HotDice.new
-          score = Score.new
 
           # while user has not farkled and has more than 1 die
           while roll.has_points? and roll.dice.length > 1
@@ -128,7 +123,7 @@ class Farkle
       # output congratulations message
       puts "Congratulations, #{winner.winner(players)} has won!"
       puts "Would you like to play a new game?"
-    end
+    end while (ans.yes?)
     puts "Thanks for playing! I hope you enjoyed"
   end
 end
